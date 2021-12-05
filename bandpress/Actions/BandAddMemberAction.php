@@ -7,7 +7,7 @@ class BandAddMemberAction{
     private $songTitle;
     public function __construct(){
         $this->bandSlug = $_REQUEST['band_slug'];
-        $this->songTitle = $_REQUEST['songTitle'];
+        $this->memberName = $_REQUEST['memberName'];
     }
     public function __destruct(){}
     public function do(){
