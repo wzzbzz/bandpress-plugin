@@ -15,8 +15,8 @@ class BandAddMemberForm{
             <input type="hidden" name="package" value="bandpress">
             <div class="py-5 mx-2 h-100">
                 <div class="mb-3">
-                    <label class="form-label" for="bandMember">Add a Member</label>
-                    <input type="text" class="form-control" name="memberName" id="memberName" />
+                    <label class="form-label" for="userLogin">Add a Member</label>
+                    <input type="text" class="form-control" name="userLogin" id="userLogin" />
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
