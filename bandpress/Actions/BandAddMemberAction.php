@@ -7,7 +7,7 @@ class BandAddMemberAction{
     private $songTitle;
     public function __construct(){
         $this->bandSlug = $_REQUEST['band_slug'];
-        $this->memberName = $_REQUEST['memberName'];
+        $this->memberName = $_REQUEST['userLogin'];
     }
     public function __destruct(){}
     public function do(){
@@ -23,10 +23,9 @@ class BandAddMemberAction{
         $users = new \vinepress\Models\Users();
         
         // user doesn't exist
-        if (empty($user = $users->getUserByDisplayName($this->memberName))){
+        if (empty($user = $users->getUserByUserLogin($this->userLogin))){
             // create user
-            $user = \vinepress\Controllers\UsersController::makeNonUserUser( $this->memberName );
-            diebug($user);
+            $user = \vinepress\Controllers\UsersController::makeNonUserUser( $this->userLogin );
             
         }
         
