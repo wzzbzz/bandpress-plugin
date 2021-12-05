@@ -52,6 +52,7 @@ class Band extends TaxonomyTerm{
     public function addSong( $new_song ){
         $this->add_meta('songs',$new_song->id());
     }
+    
     public function hasSongTitled($title){
         
         $return = false;

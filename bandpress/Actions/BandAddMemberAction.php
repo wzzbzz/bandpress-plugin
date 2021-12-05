@@ -26,6 +26,7 @@ class BandAddMemberAction{
         if (empty($user = $users->getUserByDisplayName($this->memberName))){
             // create user
             $user = \vinepress\Controllers\UsersController::makeNonUserUser( $this->memberName );
+            diebug($user);
             
         }
         
