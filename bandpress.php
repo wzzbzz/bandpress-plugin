@@ -87,6 +87,15 @@ class BandPressApplication {
 
         switch ($pagename){
             
+            case 'song-profile':
+                $bands = new \bandpress\Models\Bands();
+                $band = $bands->getBandBySlug(get_query_var("band_id"));
+                $song = $band->findSongBySlug(get_query_var("song_slug"));
+                $view = new \bandpress\Views\PageViews\SongProfilePageView();
+                $view->setBand( $band );
+                $view->setSong( $song );
+                app()->setCurrentView($view);
+                break;
             case 'band-profile':
                 $bands = new \bandpress\Models\Bands();
                 $band = $bands->getBandBySlug(get_query_var("band_id"));
