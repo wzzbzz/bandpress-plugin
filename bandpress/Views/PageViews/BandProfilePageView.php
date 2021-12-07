@@ -25,7 +25,9 @@ class BandProfilePageView extends View{
     
     public function __construct( $data = null ){
         parent::__construct( $data );
+
         $this->band = $data;
+        #$this->band->removeAllSongs();
         $this->membersListView = new ListView( $data->members() );
         $this->addMemberForm = new \bandpress\Views\ComponentViews\BandAddMemberForm( $data );
         $this->songsListView = new ListView( $data->songs() );
@@ -47,7 +49,7 @@ class BandProfilePageView extends View{
         Members
       </button>
     </h2>
-    <div id="members" class="accordion-collapse collapse show" aria-labelledby="headingMembers" data-bs-parent="#bandAccordion">
+    <div id="members" class="accordion-collapse collapse" aria-labelledby="headingMembers" data-bs-parent="#bandAccordion">
       <div class="accordion-body">
         <?php $this->membersListView->render();?>
         <?php $this->addMemberForm->render();?>

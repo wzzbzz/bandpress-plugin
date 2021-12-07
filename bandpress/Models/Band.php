@@ -36,6 +36,10 @@ class Band extends TaxonomyTerm{
         unset($members[$key]);
     }
 
+    public function removeAllSongs(){
+        $this->delete_meta('songs');
+    }
+
     public function song_ids(){
         return $this->get_meta('songs');
     }
@@ -43,25 +47,40 @@ class Band extends TaxonomyTerm{
         $songs = [];
         foreach($this->song_ids() as $song_id){
             $song_post = get_post( $song_id );
-            $songs[] = new \bandpress\Models\Song( $song );
+            $song = new \bandpress\Models\BandSong( $song_post );
+            $song->setBand($this);
+            $songs[] = $song;
         }
-        
+   
         return $songs;
     }
 
     public function addSong( $new_song ){
+        
         $this->add_meta('songs',$new_song->id());
     }
-    
+
     public function hasSongTitled($title){
-        
+
         $return = false;
-        foreach($songs as $song){
+        
+        foreach($this->songs() as $song){
             if($song->title() == $title){
                 $return = true;
             }
         }
+        
         return $return; 
+    }
+
+    public function findSongBySlug($slug){
+        $songs = $this->songs();
+        foreach($songs as $song){
+            if($song->slug()==$slug){
+                return $song;
+            }
+        }
+        return false;
     }
 
     public function url(){

@@ -7,7 +7,7 @@ class BandAddSongAction{
     private $newUserName;
     public function __construct(){
         $this->bandSlug = $_REQUEST['band_slug'];
-        $this->memberName = $_REQUEST['memberName'];
+        $this->songTitle = $_REQUEST['songTitle'];
     }
     public function __destruct(){}
     public function do(){
@@ -28,12 +28,13 @@ class BandAddSongAction{
         
         $args = [
             'post_title'=>$_REQUEST['songTitle'],
-            'post_type'=>'song'
+            'post_type'=>'song',
+            'post_name'=>sanitize_title($_REQUEST['songTitle'])
         ];
         $post_id = wp_insert_post($args);
         $song = new \bandpress\Models\Song( get_post($post_id) );
         $band->addSong( $song );
-        
+        $_SESSION['notifications']['successes'][]="song added";
         wp_redirect($band->url());
         die;
     }

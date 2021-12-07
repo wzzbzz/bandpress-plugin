@@ -42,6 +42,7 @@ class BandsController{
 
     public function queryVars( $vars ){
         $vars[] = 'band_id';
+        $vars[] = 'song_slug';
         return $vars;
     }
     

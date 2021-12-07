@@ -71,6 +71,6 @@ class SongsController{
     }
 
     private function rewrites(){
-
+        add_rewrite_rule("^bandpress/band/([^\/]+)/song/([^\/]+)?$", "index.php?package=bandpress&pagename=song-profile&band_id=\$matches[1]&song_slug=\$matches[2]", "top");
     }
 }

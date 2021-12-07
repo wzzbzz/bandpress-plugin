@@ -10,7 +10,7 @@ class BandAddMemberAction{
         $this->userLogin = $_REQUEST['userLogin'];
     }
     public function __destruct(){}
-    
+
     public function do(){
         
         $term = get_term_by("slug", $this->bandSlug, "band");
@@ -22,9 +22,10 @@ class BandAddMemberAction{
         $band = new \bandpress\Models\Band( $term );
 
         $users = new \vinepress\Models\Users();
-        
+    
         // user doesn't exist
         if (empty($user = $users->getUserByUserLogin($this->userLogin))){
+            
             // create user
             $user = \vinepress\Controllers\UsersController::makeNonUserUser( $this->userLogin );
             
