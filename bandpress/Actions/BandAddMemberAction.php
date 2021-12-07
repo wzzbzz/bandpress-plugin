@@ -32,7 +32,8 @@ class BandAddMemberAction{
         }
         
         $band->addMember($user);
-        
+        $musician = \bandpress\Controllers\MusiciansController::musicianFromUserObject( $user );
+        $musician->addBand( $band );
         wp_redirect($band->url());
         die;
     }
