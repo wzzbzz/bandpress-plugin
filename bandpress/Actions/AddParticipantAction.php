@@ -20,7 +20,7 @@ class AddParticipantAction
         
    
         // create Session object from requeset;
-        $post = get_post($_REQUEST['sessionId']);
+        $post = get_post($_REQUEST['id']);
         $session = new Session($post);
         
         $users = new Users();
