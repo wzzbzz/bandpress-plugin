@@ -18,7 +18,7 @@ class AddSessionAction
         // this is not good  
         $collectionClass = "\\bandpress\\Models\\".$context."s";
         $obj = $collectionClass::byId($_REQUEST['id']);
-        $title = $_REQUEST['location']."-".$_REQUEST['date'];
+        $title = $_REQUEST['location']."-".$_REQUEST['date'];   
         $args = [
             'post_title'=>$title,
             'post_type'=>'session',
@@ -28,7 +28,7 @@ class AddSessionAction
         $session = new \bandpress\Models\Session(get_post($post_id));
         $obj->addSession($session);
         $_SESSION['notifications']['successes'][]="session added";
-        wp_redirect($obj->url());
+        wp_redirect("/bandpress");
         die;
     }
 
