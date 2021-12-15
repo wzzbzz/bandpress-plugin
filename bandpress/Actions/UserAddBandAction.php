@@ -3,28 +3,34 @@
 namespace bandpress\Actions;
 use \bandpress\Controllers\BandsController;
 use \bandpress\Models\Musician;
+use \bandpress\Models\Band;
 
 
-class UserAddBandAction{
+class UserAddBandAction
+{
 
     private $bandName;
     private $isCurrentUsersBand;
 
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->bandName = $_REQUEST['bandName'];
         $this->isCurrentUsersBand = $_REQUEST['isMyBand'];
 
     }
 
-    public function __destruct(){}
+    public function __destruct()
+    {
+    }
 
-    public function do(){
+    public function do()
+    {
         
-        if(!is_user_logged_in()){
+        if(!is_user_logged_in()) {
             wp_redirect("/");
         }
-        if(!$this->bandExists()){
+        if(!$this->bandExists()) {
 
             //create the band
             $band = BandsController::addBand($this->bandName);
@@ -39,23 +45,24 @@ class UserAddBandAction{
 
         }
         else{
-            # print error message that band exists
-            $_SESSION['notifications']['errors'][] = "band exists";
-            wp_redirect("/bandpress/band/{$slug()}");
+            // print error message that band exists
+            $term = get_term_by('name', addslashes($this->bandName), 'band');
+            $band = new Band($term);
+            $musician = new Musician(wp_get_current_user());
+            $musician->addBand($band);
+            $band->addMember(app()->currentUser());
+            $_SESSION['notifications']['errors'][] = "This band already exists in our system. <br> You must be added by an existing member.";
+            wp_redirect("/bandpress/");
         }
 
         die;
     }
 
-    private function bandExists(){
+    private function bandExists()
+    {
         
-        $term = get_term_by('name',addslashes($this->bandName),'band');
+        $term = get_term_by('name', addslashes($this->bandName), 'band');
 
-        # here for testing purposes
-        if($term){
-            wp_delete_term($term->term_id,'band');
-        }
-        return false;
         return $term!==false;
        
     }

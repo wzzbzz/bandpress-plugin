@@ -2,12 +2,15 @@
 
 namespace bandpress\Views\ComponentViews;
 
-class AddSongForm{
-    public function __construct(){
+class AddSongForm
+{
+    public function __construct()
+    {
 
     }
 
-    public function render(){
+    public function render()
+    {
         ?>
         <form action="actions/addsong/" method ="POST" > 
             <input type="hidden" name="action" value="addSong" />

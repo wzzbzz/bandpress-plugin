@@ -11,7 +11,8 @@ class RecordingsListView extends ListView{
          <ul class="list-unstyled">
             <?php foreach($this->list as $item):?>
                 <li>
-                <?php $item->viewClass()->render();?>
+                <div class="d-flex justify-content-center"><?=$item->title();?></div>
+                <div><?php $item->viewClass()->render();?></div>
                 </li>
             <?php endforeach;?>
             </ul>

@@ -3,29 +3,85 @@
 namespace bandpress\Views\PageViews;
 
 use vinepress\Views\View;
+use vinepress\Views\ComponentViews\ListView;
+use \bandpress\Views\ComponentViews\AddBandForm;
+use \bandpress\Views\ComponentViews\AddSessionForm;
 
-class HomePageView extends View{
+class HomePageView extends View
+{
 
-    public function __construct( $data = null){
-       parent::__construct( $data );
-       $this->user = new \bandpress\Models\Musician(wp_get_current_user());
+    public function __construct( $data = null)
+    {
+        parent::__construct($data);
+        $this->user = new \bandpress\Models\Musician(wp_get_current_user());
     }
 
     
-    protected function renderBody(){
-                 
-       ?>
-       <div class="container">
-        <?php
-            $this->renderUserBands();
-            $this->renderUserSongs();
+    protected function renderBody()
+    {
+        $this->bandsListView = new ListView($this->user->bands());
+        $this->addBandForm = new AddBandForm();
+
+        $this->sessionsListView = new ListView($this->user->sessions());
+        $hiddenVars = [
+                [
+                    'name'=>'package',
+                    'value'=>'bandpress'
+                ],
+                [
+                    'name'=>'action',
+                    'value'=>'addSession'
+                ],
+                [
+                    'name'=>'context',
+                    'value'=>'Musician'
+                ],                
+                [
+                    'name'=>'id',
+                    'value'=>app()->currentUser()->id()
+                ],            
+            
+        ];
+        
+        $this->addSessionForm = new AddSessionForm($hiddenVars);
+
         ?>
+       <div class="container">
+       <div class="accordion" id="userAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingBands">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bands" aria-expanded="true" aria-controls="bands">
+                Bands
+            </button>
+            </h2>
+            <div id="bands" class="accordion-collapse collapse" aria-labelledby="headingBands" data-bs-parent="#userAccordion">
+                <div class="accordion-body">
+                    <?php $this->bandsListView->render();?>
+                    <?php $this->addBandForm->render(); ?>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingSessions">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sessions" aria-expanded="true" aria-controls="sessions">
+                Sessions
+            </button>
+            </h2>
+            <div id="sessions" class="accordion-collapse collapse" aria-labelledby="headingSessions" data-bs-parent="#userAccordion">
+                <div class="accordion-body">
+                    <?php $this->sessionsListView->render();?>
+                    <?php $this->addSessionForm->render(); ?>
+                </div>
+            </div>
+        </div>
+  
        </div>
-       <?php
+        <?php
     }
  
-    private function renderUserBands(){
-            $list = new \bandpress\Views\ComponentViews\ListView( $this->user->bands());
+    private function renderUserBands()
+    {
+            $list = new \bandpress\Views\ComponentViews\ListView($this->user->bands());
         ?>
         <div class="container">
 
@@ -48,7 +104,8 @@ class HomePageView extends View{
 
         <?php
     }   
-    private function renderUserSongs(){
+    private function renderUserSongs()
+    {
        
         ?>
         <div class="container">
@@ -68,7 +125,8 @@ class HomePageView extends View{
         <?php
     }   
 
-    private function renderGuestUserScreen(){
+    private function renderGuestUserScreen()
+    {
         ?>
         <div class="container py-5 h-100">
         

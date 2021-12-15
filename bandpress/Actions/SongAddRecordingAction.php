@@ -6,31 +6,46 @@ use \bandpress\Models\Song;
 use \bandpress\Models\Band;
 use \bandpress\Models\BandSong;
 
-class SongAddRecordingAction extends UploadAction{
+class SongAddRecordingAction extends UploadAction
+{
 
-    public function __construct(){
+    public function __construct()
+    {
 
     }
-    public function __destruct(){}
+    public function __destruct()
+    {
+    }
 
-    public function do(){
+    public function do()
+    {
         
-        if($id=$this->handleFileUpload()){
-            if(isset($_REQUEST['bandId'])){
+        if(is_numeric($id=$this->handleFileUpload())) {
+            if(isset($_REQUEST['bandId'])) {
                 // needs refactor
                 $song = new BandSong(get_post($_REQUEST['songId']));    
-                $band = new Band( get_term($_REQUEST['bandId']) );
+                $band = new Band(get_term($_REQUEST['bandId']));
                 $song->setBand($band);
             }
-            else
+            else {
                 $song = new Song(get_post($_REQUEST['songId']));
+            }
 
-            $song->addRecording( $id );
+            $song->addRecording($id);
             wp_redirect($song->url());
         }
         
         else{
-            wp_redirect("/");
+            if(is_wp_error($id) ) {
+                $_SESSION['notifications']['errors'][] = $id->errors['upload_error'][0];
+            }
+            else{
+                $_SESSION['notifications']['errors'][] = "File Upload Error";
+            }
+            $song = new BandSong(get_post($_REQUEST[ 'songId' ])); 
+            $band = new Band(get_term($_REQUEST['bandId']));
+            $song->setBand($band); 
+            wp_redirect($song->url());
         }
 
         die;

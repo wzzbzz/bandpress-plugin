@@ -2,14 +2,15 @@
 
 namespace bandpress\Views\PageViews;
 
-#base classes
+// base classes
 use \vinepress\Views\View;
 use \vinepress\Models\Band;
 use \vinepress\Models\Musician;
 
 use \bandpress\Views\ComponentViews\ListView;
 
-class BandProfilePageView extends View{
+class BandProfilePageView extends View
+{
 
     private $band;
     private $membersListView;
@@ -23,24 +24,27 @@ class BandProfilePageView extends View{
     private $gigsListView;
     private $addGigFormView;
     
-    public function __construct( $data = null ){
-        parent::__construct( $data );
+    public function __construct( $data = null )
+    {
+        parent::__construct($data);
 
         $this->band = $data;
-        #$this->band->removeAllSongs();
-        $this->membersListView = new ListView( $data->members() );
-        $this->addMemberForm = new \bandpress\Views\ComponentViews\BandAddMemberForm( $data );
-        $this->songsListView = new ListView( $data->songs() );
-        $this->addSongForm = new \bandpress\Views\ComponentViews\BandAddSongForm( $data );
-       // $this->albumsListView = new ListView( $data->albums() );
-       // $this->rehearsalsListView = new ListView( $data->rehearsals() );
-       // $this->gigsListView = new ListView( $data->gigs() );
+        // $this->band->removeAllSongs();
+        $this->membersListView = new ListView($data->members());
+        $this->addMemberForm = new \bandpress\Views\ComponentViews\BandAddMemberForm($data);
+        $this->songsListView = new ListView($data->songs());
+        $this->addSongForm = new \bandpress\Views\ComponentViews\BandAddSongForm($data);
+        $this->sessionsListView = new ListView($data->sessions());
+        // $this->albumsListView = new ListView( $data->albums() );
+        // $this->rehearsalsListView = new ListView( $data->rehearsals() );
+        // $this->gigsListView = new ListView( $data->gigs() );
 
     }
-    public function renderBody(){
+    public function renderBody()
+    {
         ?>
         <div class="container justify-content-center">
-        <div id="bandname"><?= $this->band->name();?></div>
+        <div id="bandname"><?php echo $this->band->name();?></div>
 
         <div class="accordion" id="bandAccordion">
   <div class="accordion-item">
@@ -100,6 +104,18 @@ class BandProfilePageView extends View{
       </button>
     </h2>
     <div id="gigs" class="accordion-collapse collapse" aria-labelledby="headingGigs" data-bs-parent="#bandAccordion">
+      <div class="accordion-body">
+        <?php //$this->gigsListView->render();?>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingSessions">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sessions" aria-expanded="false" aria-controls="sessions">
+        Sessions
+      </button>
+    </h2>
+    <div id="sessions" class="accordion-collapse collapse" aria-labelledby="headingSessions" data-bs-parent="#bandAccordion">
       <div class="accordion-body">
         <?php //$this->gigsListView->render();?>
       </div>

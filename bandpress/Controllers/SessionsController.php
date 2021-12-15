@@ -2,7 +2,7 @@
 
 namespace bandpress\Controllers;
 
-class SongsController
+class SessionsController
 {
     public function __construct()
     {
@@ -23,28 +23,28 @@ class SongsController
     private function register_post_type()
     {
         register_post_type(
-            'song',
+            'session',
             array(
                 'labels'                => array(
-                    'name'                     => _x('Songs', 'post type general name'),
-                    'singular_name'            => _x('Song', 'post type singular name'),
-                    'add_new'                  => _x('Add New', 'Song'),
-                    'add_new_item'             => __('Add new Song'),
-                    'new_item'                 => __('New Song'),
-                    'edit_item'                => __('Edit Song'),
-                    'view_item'                => __('View Song'),
-                    'all_items'                => __('All Songs'),
-                    'search_items'             => __('Search Songs'),
-                    'not_found'                => __('No Songs found.'),
-                    'not_found_in_trash'       => __('No Songs found in Trash.'),
-                    'filter_items_list'        => __('Filter Songs list'),
-                    'items_list_navigation'    => __('Songs list navigation'),
-                    'items_list'               => __('Songs list'),
-                    'item_published'           => __('Song published.'),
-                    'item_published_privately' => __('Song published privately.'),
-                    'item_reverted_to_draft'   => __('Song reverted to draft.'),
-                    'item_scheduled'           => __('Song scheduled.'),
-                    'item_updated'             => __('Song updated.'),
+                    'name'                     => _x('Sessions', 'post type general name'),
+                    'singular_name'            => _x('Session', 'post type singular name'),
+                    'add_new'                  => _x('Add New', 'Session'),
+                    'add_new_item'             => __('Add new Session'),
+                    'new_item'                 => __('New Session'),
+                    'edit_item'                => __('Edit Session'),
+                    'view_item'                => __('View Session'),
+                    'all_items'                => __('All Sessions'),
+                    'search_items'             => __('Search Sessions'),
+                    'not_found'                => __('No Sessions found.'),
+                    'not_found_in_trash'       => __('No Sessions found in Trash.'),
+                    'filter_items_list'        => __('Filter Sessions list'),
+                    'items_list_navigation'    => __('Sessions list navigation'),
+                    'items_list'               => __('Sessions list'),
+                    'item_published'           => __('Session published.'),
+                    'item_published_privately' => __('Session published privately.'),
+                    'item_reverted_to_draft'   => __('Session reverted to draft.'),
+                    'item_scheduled'           => __('Session scheduled.'),
+                    'item_updated'             => __('Session updated.'),
                 ),
                 'public'                => false,
                 'show_ui'               => true,
@@ -77,6 +77,6 @@ class SongsController
 
     private function rewrites()
     {
-        add_rewrite_rule("^bandpress/band/([^\/]+)/song/([^\/]+)?$", "index.php?package=bandpress&pagename=song-profile&band_id=\$matches[1]&song_slug=\$matches[2]", "top");
+        add_rewrite_rule("^bandpress/session/([^\/]+)?$", "index.php?package=bandpress&pagename=session-profile&name=\$matches[1]", "top");
     }
 }

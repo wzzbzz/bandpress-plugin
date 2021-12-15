@@ -6,21 +6,25 @@ use \bandpress\Views\ComponentViews\SongUpdateLyricsForm;
 use \vinepress\Views\ComponentViews\UploadForm;
 use \bandpress\Views\ComponentViews\RecordingsListView;
 
-class SongProfilePageView extends View{
+class SongProfilePageView extends View
+{
 
     private $band;
     private $song;
 
-    public function setSong($song){
+    public function setSong($song)
+    {
         $this->song = $song;
     }
 
-    public function setBand( $band ){
+    public function setBand( $band )
+    {
         $this->band = $band;
     }
 
-    public function renderBody(){
-        $lyricsForm = new SongUpdateLyricsForm( $this->song, $this->band );
+    public function renderBody()
+    {
+        $lyricsForm = new SongUpdateLyricsForm($this->song, $this->band);
 
         $hidden = [
             [
@@ -33,7 +37,7 @@ class SongProfilePageView extends View{
                 "name"=>"songId", "value"=>$this->song->id()
             ]
         ];
-        if(!empty($this->band)){
+        if(!empty($this->band)) {
             $hidden[]=["name"=>"bandId", "value"=>$this->band->id()];
         }
 
@@ -46,15 +50,15 @@ class SongProfilePageView extends View{
             'buttonLabel'=>"Upload"
             
             ];
-        $uploadRecordingForm = new UploadForm( $recordingFormArgs );
+        $uploadRecordingForm = new UploadForm($recordingFormArgs);
 
-        $recordingsList = new RecordingsListView( $this->song->recordings());
+        $recordingsList = new RecordingsListView($this->song->recordings());
 
         ?>
 
     <div class="container justify-content-center">
-        <div id="song"><?= $this->song->name();?></div>
-        <div id="credits">by <a href="<?= $this->band->url()?>"><?= $this->band->name();?></a></div>
+        <div id="song"><?php echo $this->song->name();?></div>
+        <div id="credits">by <a href="<?php echo $this->band->url()?>"><?php echo $this->band->name();?></a></div>
         <div class="accordion" id="songAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingLyrics">
@@ -67,7 +71,7 @@ class SongProfilePageView extends View{
                         <div>
                         </div>
                         <div>
-                            <?= $this->song->lyrics();?>
+                            <?php echo $this->song->lyrics();?>
                         </div>
                         <?php 
                             $lyricsForm->render();

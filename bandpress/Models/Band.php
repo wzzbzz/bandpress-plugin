@@ -3,51 +3,68 @@
 namespace bandpress\Models;
 use \vinepress\Models\TaxonomyTerm;
 
-class Band extends TaxonomyTerm{
+class Band extends TaxonomyTerm
+{
 
-    public function setLeaders(){}
-
-    public function member_ids(){
-        return $this->get_meta('members');
+    public function setLeaders()
+    {
     }
-    public function members(){
-        $members = [];
-        foreach($this->member_ids() as $member_id){
-            $user = get_user_by( "ID", $member_id );
-            $members[] = new \bandpress\Models\Musician( $user );
+
+    public function member_ids()
+    {
+        return $this->get_field('members');
+    }
+
+    
+
+    public function members()
+    {
+        // ACF field returns user object
+        $members = $this->get_field('members');
+    
+        // swap the user objects out for wrapper objects
+        foreach($members as $i=>$member){
+            // cast it as a musician.  should be BandMember?
+
+            $members[$i] = new \bandpress\Models\Musician($member['member']);
         }
         return $members;
     }
      // we're gonna stash these as meta instead of fields 
      // maybe move away from ACF when we don't need to.
-    public function addMember($new_member){
-        
-        if(!array_search($new_member->id(), $this->member_ids()))
-        {
-            $this->add_meta('members',$new_member->id());
+    public function addMember($new_member)
+    { 
+        if(!array_search($new_member->id(), $this->member_ids())) {
+            $this->add_meta('members', $new_member->id());
         }
         
         
     }
 
-    public function removeMember($member){
+    public function removeMember($member)
+    {
         $members = $this->get_field('members');
-        $key = array_search($member->id(),$members);
+        $key = array_search($member->id(), $members);
         unset($members[$key]);
     }
 
-    public function removeAllSongs(){
+    public function removeAllSongs()
+    {
         $this->delete_meta('songs');
     }
 
-    public function song_ids(){
+    public function song_ids()
+    {
         return $this->get_meta('songs');
+
     }
-    public function songs(){
+    public function songs()
+    {
+        
         $songs = [];
         foreach($this->song_ids() as $song_id){
-            $song_post = get_post( $song_id );
-            $song = new \bandpress\Models\BandSong( $song_post );
+            $song_post = get_post($song_id);
+            $song = new \bandpress\Models\BandSong($song_post);
             $song->setBand($this);
             $songs[] = $song;
         }
@@ -55,17 +72,19 @@ class Band extends TaxonomyTerm{
         return $songs;
     }
 
-    public function addSong( $new_song ){
+    public function addSong( $new_song )
+    {
         
-        $this->add_meta('songs',$new_song->id());
+        $this->add_meta('songs', $new_song->id());
     }
 
-    public function hasSongTitled($title){
+    public function hasSongTitled($title)
+    {
 
         $return = false;
         
         foreach($this->songs() as $song){
-            if($song->title() == $title){
+            if($song->title() == $title) {
                 $return = true;
             }
         }
@@ -73,17 +92,34 @@ class Band extends TaxonomyTerm{
         return $return; 
     }
 
-    public function findSongBySlug($slug){
+    public function findSongBySlug($slug)
+    {
         $songs = $this->songs();
         foreach($songs as $song){
-            if($song->slug()==$slug){
+            if($song->slug()==$slug) {
                 return $song;
             }
         }
         return false;
     }
 
-    public function url(){
+    public function session_ids(){
+        return $this->get_meta('songs');
+    }
+    public function sessions()
+    {
+        $sessions = [];
+        foreach($this->session_ids() as $session_id){
+            $post = get_post($session_id);
+            $session = new \bandpress\Models\Session($post);
+            $sessions[] = $song;
+        }
+   
+        return $sessions;
+    }
+
+    public function url()
+    {
         return get_bloginfo("url") . "/bandpress/band/" . $this->slug() . "/";
     }
     

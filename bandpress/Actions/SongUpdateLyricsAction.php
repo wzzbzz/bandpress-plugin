@@ -4,19 +4,24 @@ namespace bandpress\Actions;
 use \bandpress\Models\Song;
 use \bandpress\Models\BandSong;
 
-class SongUpdateLyricsAction{
+class SongUpdateLyricsAction
+{
 
     private $songId;
 
-    public function __construct(){
+    public function __construct()
+    {
         
     }
 
-    public function __destruct(){}
+    public function __destruct()
+    {
+    }
 
-    public function do(){
+    public function do()
+    {
         $song_post = get_post($_REQUEST['songId']);
-        if(empty($song_post)){
+        if(empty($song_post)) {
             $_SESSION['notifications']['errors'] = "No song with that ID";
             wp_redirect("/bandpress/");
         }
@@ -24,10 +29,10 @@ class SongUpdateLyricsAction{
 
         $song = new \bandpress\Models\Song($song_post);
         $song->updateLyrics($_REQUEST['lyrics']);
-        if(isset($_REQUEST['bandId'])){
+        if(isset($_REQUEST['bandId'])) {
             $song = new \bandpress\Models\BandSong($song_post);
-            $band = new \bandpress\Models\Band( get_term($_REQUEST['bandId']));
-            $song->setBand( $band );
+            $band = new \bandpress\Models\Band(get_term($_REQUEST['bandId']));
+            $song->setBand($band);
             
             wp_redirect($song->url());
         }
