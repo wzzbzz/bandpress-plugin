@@ -115,7 +115,7 @@ class BandPressApplication
             break;
         case 'band-profile':
             $bands = new \bandpress\Models\Bands();
-            $band = $bands->getBandBySlug(get_query_var("band_id"));
+            $band = $bands->bySlug(get_query_var("band_id"));
             $view  = new \bandpress\Views\PageViews\BandProfilePageView($band);
             app()->setCurrentView($view);
             break;

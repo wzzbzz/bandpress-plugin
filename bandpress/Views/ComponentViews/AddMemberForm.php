@@ -2,19 +2,18 @@
 
 namespace bandpress\Views\ComponentViews;
 
-class BandAddMemberForm
+class AddMemberForm
 {
-    public function __construct( $band )
+    public function __construct( $args )
     {
-        $this->band = $band;
+    
     }
 
     public function render()
     {
         ?>
-        <form action="actions/bandaddmember/" method ="POST" > 
-            <input type="hidden" name="action" value="bandAddMember" />
-            <input type="hidden" name="band_slug" value="<?php echo $this->band->slug();?>">
+        <form action="actions/addmember/" method ="POST" > 
+            <input type="hidden" name="action" value="AddMember" />
             <input type="hidden" name="package" value="bandpress">
             <div class="py-5 mx-2 h-100">
                 <div class="mb-3">

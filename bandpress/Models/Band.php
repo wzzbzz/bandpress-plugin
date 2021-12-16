@@ -12,7 +12,7 @@ class Band extends TaxonomyTerm
 
     public function member_ids()
     {
-        return $this->get_field('members');
+        return $this->get_meta('members');
     }
 
     
@@ -20,13 +20,12 @@ class Band extends TaxonomyTerm
     public function members()
     {
         // ACF field returns user object
-        $members = $this->get_field('members');
-    
+        $members = [];
         // swap the user objects out for wrapper objects
-        foreach($members as $i=>$member){
+        foreach($this->member_ids() as $id){
             // cast it as a musician.  should be BandMember?
+            $members[] = new \bandpress\Models\Musician(get_user_by("ID",$id));
 
-            $members[$i] = new \bandpress\Models\Musician($member['member']);
         }
         return $members;
     }
@@ -34,10 +33,10 @@ class Band extends TaxonomyTerm
      // maybe move away from ACF when we don't need to.
     public function addMember($new_member)
     { 
-        if(!array_search($new_member->id(), $this->member_ids())) {
+        
+        if(false===array_search($new_member->id(), $this->member_ids())) {
             $this->add_meta('members', $new_member->id());
         }
-        
         
     }
 
@@ -75,7 +74,7 @@ class Band extends TaxonomyTerm
             }
             return ($a->name() < $b->name()) ? -1 : 1;
         };
-        
+
         usort($songs,$alphasort);
         return $songs;
     }

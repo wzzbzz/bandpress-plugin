@@ -1,13 +1,18 @@
 <?php
 
 namespace bandpress\Models;
-use \vinepress\Models\Model;
+use \vinepress\Models\TaxonomyTermCollection;
 
-class Bands extends Model
+class Bands extends TaxonomyTermCollection
 {
-    public function getBandBySlug( $slug )
-    {
-        $term = get_term_by('slug', $slug, 'band');
+    public function __construct(){
+        $this->taxonomy = "band";
+        $this->model="\bandpress\Models\Band";
+    }
+    
+
+    public function byId( $id ){
+        $term = get_term( $id );
         return new Band($term);
     }
 }

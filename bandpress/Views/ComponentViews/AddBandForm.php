@@ -13,7 +13,7 @@ class AddBandForm
     {
         ?>
         <form action="actions/addband/" method ="POST" > 
-            <input type="hidden" name="action" value="UserAddBand" />
+            <input type="hidden" name="action" value="AddBand" />
             <input type="hidden" name="package" value="bandpress" />
             <div class="">
                 <div class="mb-3 col-3">

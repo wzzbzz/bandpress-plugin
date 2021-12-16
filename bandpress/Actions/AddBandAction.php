@@ -6,7 +6,7 @@ use \bandpress\Models\Musician;
 use \bandpress\Models\Band;
 
 
-class UserAddBandAction
+class AddBandAction
 {
 
     private $bandName;
@@ -14,10 +14,6 @@ class UserAddBandAction
 
     public function __construct()
     {
-
-        $this->bandName = $_REQUEST['bandName'];
-        $this->isCurrentUsersBand = $_REQUEST['isMyBand'];
-
     }
 
     public function __destruct()
@@ -26,10 +22,13 @@ class UserAddBandAction
 
     public function do()
     {
+      
         
         if(!is_user_logged_in()) {
             wp_redirect("/");
         }
+
+        diebug($_REQUEST);
         if(!$this->bandExists()) {
 
             //create the band

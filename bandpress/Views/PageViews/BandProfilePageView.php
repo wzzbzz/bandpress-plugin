@@ -29,15 +29,45 @@ class BandProfilePageView extends View
         parent::__construct($data);
 
         $this->band = $data;
-        // $this->band->removeAllSongs();
+
+        // can context be derived from namespace?  I think it should
+        $this->context = "Band";
+        
         $this->membersListView = new ListView($data->members());
-        $this->addMemberForm = new \bandpress\Views\ComponentViews\BandAddMemberForm($data);
+
+        /* add form */
+        $hidden = [
+          [
+              "name"=>"package","value"=>"bandpress"
+          ],
+          [
+              "name"=>"action", "value"=>"AddMember"
+          ],
+          [
+              "name"=>"id", "value"=>$this->data->id()
+          ],
+          [
+              "name"=>"context", "value"=>"Band"
+          ]
+      ];
+
+      $memberFormArgs = [
+          "action"=>"/bandpress/actions/addmember",
+          "hidden"=>$hidden,
+          'inputLabel'=>"Add a Member",
+          'inputId'=>"memberInput",
+          'inputName'=>'member',
+          'buttonLabel'=>"Add"
+          
+          ];
+
+        $this->addMemberForm = new \vinepress\Views\ComponentViews\TextInputForm( $memberFormArgs );
+
         $this->songsListView = new ListView($data->songs());
         $this->addSongForm = new \bandpress\Views\ComponentViews\BandAddSongForm($data);
+
         $this->sessionsListView = new ListView($data->sessions());
-        // $this->albumsListView = new ListView( $data->albums() );
-        // $this->rehearsalsListView = new ListView( $data->rehearsals() );
-        // $this->gigsListView = new ListView( $data->gigs() );
+        
 
     }
     public function renderBody()
