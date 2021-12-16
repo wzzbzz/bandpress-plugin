@@ -106,7 +106,7 @@ class BandPressApplication
             break;
         case 'song-profile':
             $bands = new \bandpress\Models\Bands();
-            $band = $bands->getBandBySlug(get_query_var("band_id"));
+            $band = $bands->BySlug(get_query_var("band_id"));
             $song = $band->findSongBySlug(get_query_var("song_slug"));
             $view = new \bandpress\Views\PageViews\SongProfilePageView();
             $view->setBand($band);
