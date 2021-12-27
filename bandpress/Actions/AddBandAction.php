@@ -28,12 +28,11 @@ class AddBandAction
             wp_redirect("/");
         }
 
-        diebug($_REQUEST);
-        if(!$this->bandExists()) {
-
+        if(!$this->bandExists($_REQUEST['band'])) {
+            
             //create the band
-            $band = BandsController::addBand($this->bandName);
-
+            $band = BandsController::addBand($_REQUEST['band']);
+            
             //add the band to the member
             $band->addMember(app()->currentUser());
 
